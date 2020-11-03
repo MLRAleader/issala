@@ -1,0 +1,25 @@
+{% extends 'base_admin.html.twig' %}
+
+{% block title %}Espace Admin-Annonceur{% endblock %}
+
+{% block body %}
+
+<form>
+    <h1 class="display-3">Ajouter votre annonce</h1>
+    <div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Titre</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Titre de l'annonce" aria-label="Username" aria-describedby="basic-addon1" required>
+    </div>
+
+    <div class="input-group">
+    <div class="input-group-prepend">
+        <span class="input-group-text">Description</span>
+    </div>
+    <textarea class="form-control" placeholder="Description de l'annonce"  aria-label="With textarea" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Annoncer</button>
+</form>
+   
+{% endblock %}
