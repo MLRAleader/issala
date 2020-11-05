@@ -25,17 +25,12 @@ class Annonces
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $description;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\OneToMany(targetEntity=images::class, mappedBy="annonces", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="annonces", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
@@ -73,27 +68,15 @@ class Annonces
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|images[]
+     * @return Collection|Images[]
      */
     public function getImages(): Collection
     {
         return $this->images;
     }
 
-    public function addImage(images $image): self
+    public function addImage(Images $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
@@ -103,7 +86,7 @@ class Annonces
         return $this;
     }
 
-    public function removeImage(images $image): self
+    public function removeImage(Images $image): self
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);

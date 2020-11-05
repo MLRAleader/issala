@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Annonces;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,14 @@ class AnnoncesType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('createdAt')
+            //On ajoute le champ "images" dans le formulaire
+            //Il n'est pas lié à la base de donnée (mapped à false)
+            ->add('images', FileType::class,  [
+                'label'=>false,
+                'multiple'=>true,
+                'mapped'=>false,
+                'required'=>false
+            ])
         ;
     }
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\Annonces;
+use App\Entity\Images;
 use App\Form\AnnoncesType;
 use App\Repository\AnnoncesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("admin/annonces")
+ * @Route("/annonces")
  */
 class AnnoncesController extends AbstractController
 {
@@ -35,6 +36,28 @@ class AnnoncesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //On récupère les images transmises
+            $images = $form->get('images')->getData();
+
+            //On bloucle sur les images.
+            foreach($images as $image){
+                //On génère un nouveau nom de fichier.
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+
+                //On copie le fichier dans le dossier.
+                $image->move($this->getParameter('image_directory'), $fichier);
+
+                //On stock l'image dans la bd (son nom).  
+                $img = new Images();
+                $img->setName($fichier);
+                $annonce->addImage($img);
+
+            }
+
+
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($annonce);
             $entityManager->flush();
@@ -67,6 +90,26 @@ class AnnoncesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //On récupère les images transmises
+            $images = $form->get('images')->getData();
+
+            //On bloucle sur les images.
+            foreach($images as $image){
+                //On génère un nouveau nom de fichier.
+                $fichier = md5(uniqid()).'.'.$image->guessExtension();
+
+                //On copie le fichier dans le dossier.
+                $image->move($this->getParameter('image_directory'), $fichier);
+
+                //On stock l'image dans la bd (son nom).  
+                $img = new Images();
+                $img->setName($fichier);
+                $annonce->addImage($img);
+
+            }
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('annonces_index');
